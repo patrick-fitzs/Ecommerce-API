@@ -35,11 +35,12 @@ Inside this is
 ## Run:
 - git clone 'this URL'
 - cd oont_gioAPI
-- docker compose up --build
+- docker compose up -d --build
 Add these two lines to migrate prisma and see the example db that contains a few categories and products
-- docker compose exec api npx prisma migrate dev --name init
+- docker compose exec api npx prisma migrate dev
 - docker compose exec api npx prisma db seed
 
+Then : http://localhost:3000/api for Swagger
 
 
 
