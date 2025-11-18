@@ -37,10 +37,11 @@ export class OrdersService {
         if (!cleanedUserId) {
             throw new BadRequestException('User not found');
         }
-        // wrap whole checkout in single transaction, we use tx for atomicity, all succeed or fail together.
+        // wrap whole checkout in single transaction, we use transaction for atomicity, all succeed or fail together. tx is the helper to spesak to the db.
         const order = await this.prisma.$transaction(async (tx) => {
-            // now load cart with items + prod details
+            // now load cart with items + prod details, wait until async function finishes
             const cart = await tx.cart.findUnique({
+                // nest to include item + details, item+details and so on
                 where: {userId: cleanedUserId},
                 include: {
                     items: {
