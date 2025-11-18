@@ -56,7 +56,7 @@ export class ProductsService {
     // findOne, to return a single product by its id.
     async findOne(id: number) {
         const product = await this.prisma.product.findUnique({
-            where: { id },
+            where: { id , deletedAt: null ,},
             include: {category: true },
         });
 
