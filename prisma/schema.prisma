@@ -37,8 +37,8 @@ model Product {
   deletedAt  DateTime? // keeping optional for now. if we want to know when it was deleted
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  cartItems  CartItem[]
-  orderItems OrderItem[]
+  cartItems  CartItem[] // relation from Product
+  orderItems OrderItem[] // relation from Product
 }
 
 // add cart , one per user
