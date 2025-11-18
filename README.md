@@ -1,3 +1,50 @@
+# OoNt Grocery inventory and order API
+
+NestJS + PostgreSQL microservice for grocery platform.
+Exposes APIs for Products, categories, shoppign cart and order. Handles stock and concurrency when users try to buy more than available, same time, etc.
+
+- product and category browsign with pagination
+- shopping cart per user. Add, remove, clear items
+- checkout to create orders and decrement stock
+- soft delete for products
+- postgreSQL and prisma, seed also created
+- dockerised app and database
+- swagger api docs
+
+node.js and TS runtime
+nesjJS framework
+Prisma ORM
+PostgreSQL 16 DB
+docker and docker compose
+swagger available at /api
+
+When the user checks out, the service wraps the query into a single Prisma transaction "$transaction". 
+Inside this is
+- loads the users cart and prod stocks
+- check each product has enough stock
+- decrement, using atomic decrement updates
+- creates the Order and its OrderItem rows
+- clears the user cart
+- these either succeed together or rolled back together
+
+
+
+
+
+
+## Run:
+- git clone 'this URL'
+- cd oont_gioAPI
+- docker compose up --build
+Add these two lines to migrate prisma and see the example db that contains a few categories and products
+- docker compose exec api npx prisma migrate dev --name init
+- docker compose exec api npx prisma db seed
+
+
+
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
