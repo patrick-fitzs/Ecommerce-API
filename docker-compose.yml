@@ -11,5 +11,18 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    depends_on:
+      - db # start the db first
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/oont_db?schema=public"
+      PORT: "3000"
+    ports:
+      - "3000:3000" #container:localhost
 volumes:
   postgres_data:
+
+
+
