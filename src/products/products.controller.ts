@@ -1,4 +1,4 @@
-import {Controller, Get} from '@nestjs/common';
+import {Controller, Get, Param, BadRequestException, Query} from '@nestjs/common';
 import { ProductsService } from './products.service';
 
 
@@ -9,13 +9,28 @@ export class ProductsController {
 
     // GET /products, call service and return what it gets back
     @Get()
-    async findAll() {
-        return this.productsService.findAll();
+    async findAll(
+        @Query('page') page?:string,
+        @Query('limit') limit?:string,
+        ) {
+        //convert query strings to nums with defaults.
+        // if a page exists, assign to pageNumber, otherwise convert to number and assign otherwise use 1
+        const pageNumber = page ? Number(page) : 1;
+        const limitNumber = limit ? Number(limit) : 10;
+
+        //validate numbers, they must be positive
+        if (
+            Number.isNaN(pageNumber) || Number.isNaN(limitNumber) || pageNumber < 1 || limitNumber < 1
+        ){
+            throw new BadRequestException('Limit and page number must be positive.');
+        }
+        return this.productsService.findAll(pageNumber, limitNumber);
     }
 
+    // @Param('id') pulls string so convert to number
     // id route parameter, convert to a num when passing it to the DB
     @Get(':id')
-    async findOne(id:string) {
+    async findOne(@Param('id')id:string) {
         const productId = Number(id);
 
         return this.productsService.findOne(productId);
