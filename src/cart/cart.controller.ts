@@ -1,6 +1,7 @@
-import { Controller, BadRequestException, Get, Param, Body, Delete, Post } from '@nestjs/common';
+import {Controller, BadRequestException, Get, Param, Body, Delete, Post, Put, ParseIntPipe} from '@nestjs/common';
 import {CartService} from "./cart.service";
 import {AddCartItemDto} from "./dto/add-cart-item.dto";
+import {UpdateCartItemDto} from "./dto/update-cart-item.dto";
 
 
 // routes that start with /cart
@@ -50,6 +51,14 @@ export class CartController {
         }
         // give logic to service
         return this.cartService.addOrUpdateItem(cleanedUserId, productId, quantity);
+    }
+
+    @Put(':userId/items/:productId')
+    async updateItem(@Param('userId') userId: string,
+                     @Param('productId', ParseIntPipe) productId: number,
+                     @Body() body: UpdateCartItemDto) {
+        const qty =Number(body.quantity); // qty taken from body
+        return this.cartService.addOrUpdateItem(userId.trim(), productId, qty)
     }
 
 

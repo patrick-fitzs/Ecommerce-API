@@ -36,7 +36,7 @@ Inside this is
   - decrements each stock
   - creates the `Order` and `OrderItem` rows and captures the `priceAtPurchase`
   - as this all happens in a single transaction, they either all commit or none of them do. so in the event where two checkouts race for the same product, the second transaction waits for the row lock and then would see the updated stock and ultimately fail if there is not enough.
-
+  - Serializable is used. This provides the strictest transaction isolation in postgreSQL. it runs them as if transactions had been executed one after another, serially rather tnan concurrently
 
 ## Run:
 - git clone 'this URL'
