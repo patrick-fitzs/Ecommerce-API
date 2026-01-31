@@ -1,4 +1,4 @@
-# OoNt Grocery inventory and order API
+# E-commerce Grocery inventory and order API
 
 NestJS + PostgreSQL microservice for grocery platform.
 Exposes APIs for Products, categories, shoppign cart and order. Handles stock and concurrency when users try to buy more than available, same time, etc.
@@ -40,7 +40,7 @@ Inside this is
 
 ## Run:
 - git clone 'this URL'
-- cd oont_gioAPI
+- cd e-commerce-API
 - docker compose up -d --build
 Add these two lines to migrate prisma and see the example db that contains a few categories and products
 - docker compose exec api npx prisma migrate dev // Migrates to Postgres running in db container
